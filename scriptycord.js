@@ -1,8 +1,6 @@
-// scriptycord
-//port of BeautifulDiscord to javascript...sorta
-
 'use strict';
 
+// TODO check for existance of app.asar... and if not then try applying to existing modified indexjs
 const path = require('path');
 const fs = require('fs');
 
@@ -12,7 +10,7 @@ const discordHome = String.raw`C:\Users\Rafael\AppData\Local\Discord\app-0.0.295
 
 process.chdir(discordHome);
 
-const cssPath = path.resolve(['./css/css.css']);
+const cssPath = path.resolve('./css/css.css').replace(/\\/g, '\\\\');
 
 const cssInjectionScript = `
 window._fs = require("fs");
@@ -48,7 +46,7 @@ window.applyAndWatchCSS('${cssPath}');`;
 
 fs.writeFileSync('./app/app/cssInjection.js', cssInjectionScript);
 
-const cssInjectionScriptPath = path.resolve(['./app/app/cssInjection.js']);
+const cssInjectionScriptPath = path.resolve('./app/app/cssInjection.js').replace(/\\/g, '\\\\');
 
 const cssReloadScript = `
 mainWindow.webContents.on('dom-ready', function () {
