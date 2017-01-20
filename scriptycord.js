@@ -1,8 +1,7 @@
 'use strict';
 
-// TODO check for existance of app.asar... and if not then try applying to existing modified indexjs
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const asar = require('asar');
 
 const home1 = process.env.LOCALAPPDATA + String.raw`\Discord\app-0.0.295\resources`;
@@ -20,15 +19,25 @@ if (fs.existsSync(home3)) {
 
 process.chdir(discordHome);
 
-/*extract app.asar to app folder and rename it aside*/
+// extract app.asar to app folder and rename it aside
 
 //console.log(proc.execSync('asar e app.asar app').toString());
+
+if (!fs.existsSync('app.asar')) {
+  console.error('im not a wizard dude. put the asar in the right place if you wanna patch');
+  process.exit(1);
+}
 
 asar.extractAll('app.asar', './app');
 
 fs.renameSync('app.asar', 'bak_app.asar');
 
 const cssPath = path.resolve(process.env.LOCALAPPDATA + '/Discord/css/css.css').replace(/\\/g, '\\\\');
+
+const cssParent = path.resolve(process.env.LOCALAPPDATA + '/Discord/css/');
+// create parent folder and css file
+fs.mkdirsSync(cssParent);
+fs.ensureFileSync(cssParent + 'css.css');
 
 const cssInjectionScript = `
 window._fs = require("fs");
@@ -77,3 +86,5 @@ const f = './app/index.js';
 const entireThing = fs.readFileSync(f, 'utf8');
 
 fs.writeFileSync(f, entireThing.replace("mainWindow.webContents.on('dom-ready', function () {});", cssReloadScript));
+
+console.log('discord patched! RESTART YOUR DISCORD CLIENT and mess with your css at ' cssParent + 'css.css');

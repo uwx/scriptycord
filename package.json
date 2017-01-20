@@ -1,0 +1,22 @@
+{
+  "name": "scriptycord",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scriptycord.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fallk/scriptycord.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fallk/scriptycord/issues"
+  },
+  "homepage": "https://github.com/fallk/scriptycord#readme",
+  "dependencies": {
+    "fs-extra": "github:fallk/node-fs-extra"
+  }
+}
