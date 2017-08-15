@@ -70,9 +70,15 @@ function canRW(targetPath) {
 
   asar.extractAll('app.asar', './app');
 
-  fs.renameSync('app.asar', 'bak_app.asar');
+  await fs.rename('app.asar', 'bak_app.asar');
 
   const cssPath = path.resolve(baseDir + '/css/css.css').replace(/\\/g, '\\\\');
+
+  if (await fs.exists(cssPath)) {
+    clog.blue('css file found. welcome back, captain.');
+  } else {
+    clog.yellow('css file not found. please make one!');
+  }
 
   const cssParent = path.resolve(baseDir + '/css/');
   // create parent folder and css file
@@ -127,7 +133,7 @@ function canRW(targetPath) {
 
   fs.writeFileSync(f, entireThing.replace("mainWindow.webContents.on('dom-ready', function () {});", cssReloadScript));
 
-  console.log('discord patched! RESTART YOUR DISCORD CLIENT and mess with your css at ' + cssParent + '/css.css');
+  console.log('discord patched! RESTART YOUR DISCORD CLIENT\nmess with your css at ' + cssPath.replace(/\\\\/g, '/'));
 
 })().catch(e => {
   console.error(e);
