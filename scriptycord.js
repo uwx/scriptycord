@@ -74,17 +74,17 @@ function canRW(targetPath) {
 
   const cssPath = path.resolve(baseDir + '/css/css.css').replace(/\\/g, '\\\\');
 
-  if (await fs.exists(cssPath)) {
-    clog.blue('css file found. welcome back, captain.');
-  } else {
-    clog.yellow('css file not found. please make one!');
-  }
-
   const cssParent = path.resolve(baseDir + '/css/');
   // create parent folder and css file
   fs.mkdirsSync(cssParent);
-  fs.ensureFileSync(cssParent + 'css.css');
 
+  if (await fs.exists(cssParent + '/css.css')) {
+    clog.blue('css file found. welcome back, captain.');
+  } else {
+    fs.ensureFileSync(cssParent + '/css.css');
+    clog.yellow('css file not found. please make one!');
+  }
+  
   const cssInjectionScript = `
   window._fs = require("fs");
   window._fileWatcher = null;
