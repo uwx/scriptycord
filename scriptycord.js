@@ -122,10 +122,19 @@ function canRW(targetPath) {
   const cssInjectionScriptPath = path.resolve('./app/cssInjection.js').replace(/\\/g, '\\\\');
 
   const cssReloadScript = `
+
   mainWindow.webContents.on('dom-ready', function () {
     mainWindow.webContents.executeJavaScript(
-      _fs2.default.readFileSync('${cssInjectionScriptPath}', 'utf-8')
-    );
+      _fs2.default.readFileSync('${cssInjectionScriptPath}', 'utf-8'));
+      
+    mainWindow.webContents.executeJavaScript(
+      _fs2.default.readFileSync('TODO\\DiscordCanary\\injected\\zeroth.js', 'utf-8'));
+      
+    mainWindow.webContents.executeJavaScript(
+      _fs2.default.readFileSync('TODO\\DiscordCanary\\injected\\first.js', 'utf-8'));
+      
+    mainWindow.webContents.executeJavaScript(
+      _fs2.default.readFileSync('TODO\\DiscordCanary\\injected\\second.js', 'utf-8'));
   });`;
 
   const f = './app/index.js';
