@@ -8,20 +8,6 @@ const inquirer = require('inquirer');
 const clog = require('clog');
 const proc = require('mz/child_process');
 
-function canRW(targetPath) {
-  return new Promise((resolve) => {
-    fs.stat(targetPath, err => {
-      if (err) {
-        resolve(false);
-        return;
-      }
-      fs.access(targetPath, fs.W_OK | fs.R_OK, err => {
-        resolve(!!err);
-      });
-    });
-  });
-}
-
 (async () => {
   async function input(question) {
     const answers = await inquirer.prompt([{name: 'zero', message: question}]);
