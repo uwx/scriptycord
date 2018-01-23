@@ -1,0 +1,8 @@
+onOpenVoiceSettings = _options2.onOpenVoiceSettings,
+!after: _hansen_Settings = _options2._hansen_Settings,
+
+menuItems[MenuItems.QUIT] = {
+!before: menuItems['HANSEN_PLUGIN_SETTINGS'] = { label: 'Plugin Settings', type: 'normal', click: _hansen_Settings };
+
+contextMenu = [menuItems[MenuItems.SECRET], separator, menuItems[MenuItems.OPEN], menuItems[MenuItems.MUTE], menuItems[MenuItems.DEAFEN], menuItems[MenuItems.VOICE_SETTINGS], menuItems[MenuItems.CHECK_UPDATE], separator, menuItems[MenuItems.QUIT]];
+contextMenu = [menuItems[MenuItems.SECRET], separator, menuItems['HANSEN_PLUGIN_SETTINGS'], menuItems[MenuItems.OPEN], menuItems[MenuItems.MUTE], menuItems[MenuItems.DEAFEN], menuItems[MenuItems.VOICE_SETTINGS], menuItems[MenuItems.CHECK_UPDATE], separator, menuItems[MenuItems.QUIT]];

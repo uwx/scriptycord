@@ -1,10 +1,12 @@
 'use strict';
 
+const os = require('os');
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('fsxt');
 const asar = require('asar');
 const inquirer = require('inquirer');
 const clog = require('clog');
+const proc = require('mz/child_process');
 
 function canRW(targetPath) {
   return new Promise((resolve) => {
@@ -43,97 +45,14 @@ function canRW(targetPath) {
     choices: ['Discord', 'Discord PTB', 'Canary'],
   })];
   
-  const appDirs = (await fs.readdir(baseDir)).filter(e => e.includes('app-'));
+  await fs.copy('./tree', baseDir);
   
-  const discordHome = baseDir + '/' + await prompt({
-    type: 'list',
-    message: 'Install on which app version?',
-    choices: appDirs,
-  }) + '/resources';
+  console.log(await proc.exec('npm install -g electron@1.6.15 --arch=ia32'));
+  console.log(await proc.exec('npm install', {cwd: baseDir + '/injectedNodeModules'}));
   
-  // cd into the app folder
-  process.chdir(discordHome);
-
-  // extract app.asar to app folder and rename it aside
-
-  //console.log(proc.execSync('asar e app.asar app').toString());
-
-  if (!fs.existsSync('app.asar')) {
-    clog.red('im not a wizard dude. put the asar in the right place if you wanna patch');
-    process.exit(1);
-  }
-
-  if (!canRW('app.asar')) {
-    clog.red('file in use! close Discord.');
-    process.exit(2);
-  }
-
-  asar.extractAll('app.asar', './app');
-
-  await fs.rename('app.asar', 'bak_app.asar');
-
-  const cssPath = path.resolve(baseDir + '/css/css.css').replace(/\\/g, '\\\\');
-
-  if (await fs.exists(cssPath)) {
-    clog.blue('css file found. welcome back, captain.');
-  } else {
-    clog.yellow('css file not found. please make one!');
-  }
-
-  const cssParent = path.resolve(baseDir + '/css/');
-  // create parent folder and css file
-  fs.mkdirsSync(cssParent);
-  fs.ensureFileSync(cssParent + 'css.css');
-
-  const cssInjectionScript = `
-  window._fs = require("fs");
-  window._fileWatcher = null;
-  window._styleTag = null;
-  window.setupCSS = function(path) {
-    var customCSS = window._fs.readFileSync(path, "utf-8");
-    if(window._styleTag === null) {
-      window._styleTag = document.createElement("style");
-      document.head.appendChild(window._styleTag);
-    }
-    window._styleTag.innerHTML = customCSS;
-    if(window._fileWatcher === null) {
-      window._fileWatcher = window._fs.watch(path, { encoding: "utf-8" },
-        function(eventType, filename) {
-          if(eventType === "change") {
-            var changed = window._fs.readFileSync(path, "utf-8");
-            window._styleTag.innerHTML = changed;
-          }
-        }
-      );
-    }
-  };
-  window.tearDownCSS = function() {
-    if(window._styleTag !== null) { window._styleTag.innerHTML = ""; }
-    if(window._fileWatcher !== null) { window._fileWatcher.close(); window._fileWatcher = null; }
-  };
-  window.applyAndWatchCSS = function(path) {
-    window.tearDownCSS();
-    window.setupCSS(path);
-  };
-  window.applyAndWatchCSS('${cssPath}');`;
-
-  fs.writeFileSync('./app/cssInjection.js', cssInjectionScript);
-
-  const cssInjectionScriptPath = path.resolve('./app/cssInjection.js').replace(/\\/g, '\\\\');
-
-  const cssReloadScript = `
-  mainWindow.webContents.on('dom-ready', function () {
-    mainWindow.webContents.executeJavaScript(
-      _fs2.default.readFileSync('${cssInjectionScriptPath}', 'utf-8')
-    );
-  });`;
-
-  const f = './app/index.js';
-  const entireThing = fs.readFileSync(f, 'utf8');
-
-  fs.writeFileSync(f, entireThing.replace("mainWindow.webContents.on('dom-ready', function () {});", cssReloadScript));
-
-  console.log('discord patched! RESTART YOUR DISCORD CLIENT\nmess with your css at ' + cssPath.replace(/\\\\/g, '/'));
+  await fs.writeFile(os.homedir() + '/Desktop/Launch Discord.bat', 'electron ' + path.resolve(baseDir + '/injectedElectronLoader'));
+  
+  console.log('discord patched! START DISCORD FROM THE DESKTOP SHORTCUT');
 
 })().catch(e => {
   console.error(e);

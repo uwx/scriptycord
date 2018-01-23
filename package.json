@@ -20,7 +20,8 @@
     "asar": "^0.13.0",
     "chalk": "^2.1.0",
     "clog": "github:uwx/clog#master",
-    "fs-extra": "github:uwx/node-fs-extra",
-    "inquirer": "^3.2.1"
+    "fsxt": "^5.0.3",
+    "inquirer": "^3.2.1",
+    "mz": "^2.7.0"
   }
 }

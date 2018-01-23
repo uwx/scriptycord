@@ -1,0 +1,11 @@
+{
+    "name": "hansen-injections",
+    "version": "1.0.0",
+    "description": "Injects CSS and JS into the discord client",
+    "main": "index.js",
+    "scripts": {},
+    "author": "Kura & stupid cat",
+    "license": "MIT",
+    "repository": "https://github.com/DiscordInjections/DiscordInjections",
+    "dependencies": {}
+}

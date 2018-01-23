@@ -1,0 +1,2 @@
+app.setVersion(buildInfo.version);
+!after: require(require('path').relative(__dirname, 'C:/Users/Rafael/AppData/Local/DiscordCanary/injected/electronScopePremain')).onEventRegister(_require, app, _require.BrowserWindow, null, _require.ipcMain, null, _require.shell);
