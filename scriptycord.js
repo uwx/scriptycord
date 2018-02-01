@@ -7,6 +7,7 @@ const asar = require('asar');
 const inquirer = require('inquirer');
 const clog = require('clog');
 const proc = require('mz/child_process');
+const ws = require('windows-shortcuts-promise');
 
 (async () => {
   async function input(question) {
@@ -36,9 +37,20 @@ const proc = require('mz/child_process');
   console.log(await proc.exec('npm install -g electron@1.6.15 --arch=ia32'));
   console.log(await proc.exec('npm install', {cwd: baseDir + '/injectedNodeModules'}));
   
-  await fs.writeFile(os.homedir() + '/Desktop/Launch Discord.bat', 'electron ' + path.resolve(baseDir + '/injectedElectronLoader'));
+  try {
+    await ws.create(os.homedir() + '/Desktop/Scriptycord.lnk', {
+      target: '%APPDATA%/npm/node_modules/electron/dist/electron.exe',
+      args: baseDir + '/injectedElectronLoader', // doesn't seem that i can use just '.' here
+      workingDir: baseDir + '/injectedElectronLoader',
+      icon: baseDir + '/app2.ico'
+    });
+  } catch (e) {
+    console.error('failed to write shortcut, writing a batch file for you instead...');
+    await fs.writeFile(os.homedir() + '/Desktop/Launch Discord.bat', 'electron ' + path.resolve(baseDir + '/injectedElectronLoader'));
+  }
   
-  console.log('discord patched! START DISCORD FROM THE DESKTOP SHORTCUT');
+  
+  console.log('discord patched! START DISCORD FROM THE DESKTOP SHORTCUT/BATCH FILE');
 
 })().catch(e => {
   console.error(e);

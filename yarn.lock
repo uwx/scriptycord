@@ -959,6 +959,10 @@ vinyl@^2.0.0:
     remove-trailing-separator "^1.0.1"
     replace-ext "^1.0.0"
 
+windows-shortcuts-promise@hansen-modules/windows-shortcuts-promise:
+  version "0.1.6"
+  resolved "https://codeload.github.com/hansen-modules/windows-shortcuts-promise/tar.gz/ab401c45ce8989cc411481df7f5209244fb2ed35"
+
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
