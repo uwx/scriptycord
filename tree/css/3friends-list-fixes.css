@@ -1,0 +1,33 @@
+#friends .friends-table .friends-row .friends-column-actions .friends-action{transition:initial;}
+
+#friends .friends-table .friends-row .friends-column-actions .friends-action{transition:initial;}
+
+#friends .friends-table .friends-row .friends-column-actions{transition:initial;}
+
+#friends .friends-table .friends-row .friends-column-actions .friends-action:nth-child(2){transition-delay:initial;}
+
+.friends-table-body {
+    margin: 0 !important;
+}
+.friends-table > .scrollerWrap-2uBjct {
+    margin-top: -12px;
+    max-height: calc(100% + 12px);
+}
+.friends-row {
+    width: 300px;
+}
+.friends-table-body {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+.friends-table-body > div[style="width: 100%; height: 0px;"] {
+    display: none;
+}
+.friends-row > .friends-column.friends-column-name > .discord-tag > .username {
+    margin: 5px !important;
+}
+.friends-row:hover > .friends-column.friends-column-name > .discord-tag > .username {
+    width: 64px !important;
+}

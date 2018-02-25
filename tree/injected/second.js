@@ -10,7 +10,7 @@ window.hansenExecute(async function secondJS(rremote) {
   const path = require('path');
   const electron = require('electron');
   const proc = rremote('mz/child_process');
-  const fs = rremote('mz/fs');
+  const fs = rremote('fsxt');
   
   electron.webFrame.registerURLSchemeAsPrivileged('hansen');
   electron.webFrame.registerURLSchemeAsPrivileged('extension');

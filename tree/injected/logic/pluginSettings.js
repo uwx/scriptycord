@@ -1,9 +1,10 @@
-const rlib = require('../utils/rlib.js');
-const fs = global.__require('mz/fs');
-const { escapeHtml } = require('../utils/string.js');
+'use strict';
+
+const electron = require('electron');
+const fs = Hansen.require('fsxt');
+
 const { addStyle, addScript } = require('../utils/domutils.js');
 const { rootPath } = require('../utils/const.js');
-const electron = require('electron');
 
 async function load() {
   // inject sweetalert
@@ -16,7 +17,7 @@ async function load() {
 
   // settings dialog (individual plugin)
   function pluginSettings({name, plugin}) {
-    swal({
+    window.swal({
       title: 'Plugin Settings: ' + name, 
       background: '#36393f',
       allowOutsideClick: false,
@@ -66,7 +67,7 @@ async function load() {
           display: inline-block;
           float: left;">${name}<br><span style="
             color: gray;
-            font-style: italic;">${description}</span></p>
+            font-style: italic;">${description}</span> - <b>${version}</b></p>
         <p style="
           text-align: right;
           display: inline-block;
@@ -76,7 +77,7 @@ async function load() {
       //
     });
     
-    swal({
+    window.swal({
       title: 'Plugin Settings', 
       background: '#36393f',
       allowOutsideClick: false,
@@ -90,7 +91,7 @@ async function load() {
           document.getElementById(ext.id).addEventListener('click', () => {
             pluginSettings(ext);
           });
-        })
+        });
       }
     }).then(r => {
       const success = !!r.value || r.dismiss == 'overlay';

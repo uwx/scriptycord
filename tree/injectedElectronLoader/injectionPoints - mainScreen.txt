@@ -8,7 +8,7 @@ var mainWindowOptions = {
 !after: icon: '%%%\\app2.ico',
 
 webPreferences: {
-!after: preload: _path2.default.relative(__dirname, '%%%\\injected\\preloadScript.js'),
+!after: blinkFeatures: 'CSSBackdropFilter', preload: _path2.default.relative(__dirname, '%%%\\injected\\preloadScript.js'),
 
 applyWindowBoundsToConfig(mainWindowOptions);
 !after: require(_path.relative(__dirname, '%%%\\injected\\electronScopePremain')).onWindowCreate(mainWindowOptions, _electron, _electron.app, _electron.BrowserWindow, null, _electron.ipcMain, null, _electron.shell);

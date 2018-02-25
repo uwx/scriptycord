@@ -29,10 +29,17 @@ scope.exports = {
   author: 'hansen',
 
   init() {
-    if (typeof BDfunctionsDevilBro != 'object') {
-      scope.addScript(scope.getFile('hansen://BDfunctionsDevilBro.js'));
+    var libraryScript = null;
+    if (typeof BDfunctionsDevilBro !== 'object' || BDfunctionsDevilBro.isLibraryOutdated()) {
+      if (typeof BDfunctionsDevilBro === 'object')
+        BDfunctionsDevilBro = '';
+      libraryScript = document.querySelector('head script[src="https://mwittrien.github.io/BetterDiscordAddons/Plugins/BDfunctionsDevilBro.js"]');
+      if (libraryScript) libraryScript.remove();
+      libraryScript = document.createElement('script');
+      libraryScript.setAttribute('type', 'text/javascript');
+      libraryScript.setAttribute('src', 'https://mwittrien.github.io/BetterDiscordAddons/Plugins/BDfunctionsDevilBro.js');
+      document.head.appendChild(libraryScript);
     }
-    console.log('[antiping] loaded', servers.length, 'servers');
   },
 
   hooks: [

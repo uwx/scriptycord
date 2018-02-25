@@ -1,0 +1,507 @@
+/*//META{"name":"ClearDiscord_Theme","description":"A nice and clean theme","author":"Dddsasul","version":"1.0"}*/
+
+// obfuscated CSS vars
+@channels: ~".channels-3g2vYe";
+@scroller: ~".scroller-fzNley";
+@container: ~".container-iksrDt";
+@titleWrapper: ~".titleWrapper-3Vi_wz";
+@header: ~".header-1tSljs";
+@titleBar: ~".titleBar-3_fDwJ";
+@scrollerWrap: ~".scrollerWrap-2uBjct";
+@contents: ~".contents-4L4hQM";
+@topSectionPlaying: ~".topSectionPlaying-3jAH9b";
+
+// colors
+@textColor: #eee;
+
+.transform(@transform) {
+    -webkit-transform: @transform;
+    transform: @transform;
+}
+
+.nobg() {
+    background: none !important;
+}
+.transparent() {
+    background: transparent !important;
+}
+
+#app-mount > .platform-win,
+#app-mount > .platform-win > .app,
+#app-mount > .platform-win > .app > .flex-vertical,
+#app-mount > .platform-win > .app > .flex-vertical > div, 
+// channel heading
+#app-mount > .platform-win > div > div.layers.flex-vertical.flex-spacer > div > div > div > div > div.chat.flex-vertical.flex-spacer > div.theme-dark > div[class*="title-"],
+// text area
+form,
+// friends header
+#friends > div:nth-child(1) {
+	.transparent;
+}
+
+.divider > div {
+    height: 2px !important;
+}
+li.selected, span >div.selected, section > div > div > div > div > div.selected, .friends-row:hover, li.channel-text:hover, div.channel.private:hover, .btn-friends:hover, .messages .markup pre code.hljs, .member:hover {
+    background: rgba(60, 60, 60, .2) !important;
+}
+.messages .markup code.inline {
+    background: rgba(60, 60, 60, .4) !important;
+}
+.scroller-wrap .scroller::-webkit-scrollbar-thumb {
+	border:3px solid rgba(255,255,255,0) !important;
+	background-color:rgba(0,0,0,0.7) !important;
+}
+.scroller-wrap .scroller::-webkit-scrollbar-track-piece {
+	border:3px solid rgba(255,255,255,0) !important;
+	background-color:rgba(0,0,0,0.3) !important;
+}
+.guild-header ul {
+	.transform(translate3d(0, -140%, 0)) !important;
+}
+.guild-header.guild-header-open ul {
+	.transform(translate3d(0, 0, 0)) !important;
+}
+#app-mount {
+    background: url('hansen://bg.jpg') !important;
+    background-size:cover !important;
+}
+
+.friends-online {
+    color: @textColor !important;
+}
+
+.channel-members > h2 {
+    color: #999 !important;
+}
+
+.chat .divider:before {
+    display:none !important;
+}
+
+.markup, .user-name {
+    font-size: 115% !important;
+}
+
+.timestamp {
+    font-size: 14px !important;
+}
+
+.scroller.channel-members:after {
+    content: 'a';
+    height: 400px;
+    font-size: 0;
+}
+
+.divider > span,
+.title-wrap, .messages-wrapper, .flex-spacer, .channel-members, .channels-wrap, .scroller, .account, .links, .guilds-wrapper, .btn-settings, .btn-deafen, .btn-mute, .btn-info, .btn-disconnect, .typing, .private-channels, .search-bar, .friends-header, .friends-table, .messages .markup pre, #friends, #voice-connection, header,
+.theme-dark .layer, .theme-dark .layers,
+.flex-vertical.channels-wrap > div,
+.bot-tag, .guilds-add,
+//.divider > span,
+.guild-inner,
+// typing box bg
+.messages-wrapper + form > div > div {
+    .nobg;
+}
+
+#app-mount > div > div:nth-child(2) > div > div.layers.flex-vertical.flex-spacer > div > section > div.flex-vertical.channels-wrap > div > div.ui-scroller-wrap.ui-scroller-ghost-hairline.ui-scroller-themed.ui-scroller-fade > div > div > div > div[class^="contentSelectedText"] {
+    background-color: rgba(255,255,255,.1) !important;
+}
+
+#user-profile-modal > .avatar-wrapper {
+    border-radius: 50%;
+    top: 30px;
+    left: 30px;
+    width: 138px;
+    height: 138px;
+    background-color: #9fb9fb;
+}
+#user-profile-modal > .avatar-wrapper > .avatar-profile {
+    background-image: url(https://cdn.discordapp.com/avatars/225441391663251457/43e236b87f86853d940261e23cfc45d2.webp?size=256);
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+#user-profile-modal > .header {
+    background: rgba(255, 255, 255, 0.65) !important;
+}
+
+#user-profile-modal > .header::after {
+    display:none;
+}
+
+
+#user-profile-modal > .scroller-wrap.fade{
+    background: #F3F3F3;
+}
+
+.user-popout {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.messages-wrapper + form {
+    border: none !important;
+}
+
+/*typing box margin*/
+.messages-wrapper + form > div {
+    margin: 10px 0;
+    background: #13191C;
+}
+/*.messages-wrapper + form > div > div > div > svg {
+    -webkit-mask-image: url('hansen://upload.svg');
+	opacity: 0.8;
+	margin-top: 4px;
+    -webkit-mask-size: 70% !important;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 4.5px 7px;
+    transform: scale(2);
+    background-color: #818587;
+    transition: fill 0.5s, background-color 0.5s, color 0.5s !important;
+}
+.messages-wrapper + form > div > div > div > svg:hover {
+    transform: scale(2) !important;
+    background-color: #CCCCCD;
+}
+.messages-wrapper + form > div > div > div > svg > path {
+    transition: fill 0.5s, background-color 0.5s, color 0.5s !important;
+    fill: #818587 !important;
+}
+.messages-wrapper + form > div > div > div > svg:hover > path {
+    fill: #CCCCCD !important;
+}*/
+
+/* embed metro borderless */
+.embed.embed-rich {
+    border: none !important;
+}
+.embed-wrapper, .embed, .embed-color-pill {
+    border-radius: 0 !important;
+}
+
+/* friend icon (first of guilds) */
+.friends-icon {
+	background-image: url('hansen://friends-list.svg')!important;
+	opacity: 0.8;
+	margin-top: 4px;
+	background-size: 50% !important;
+}
+
+/* typing indicator pos fix */
+.typing {
+    position: absolute;
+    top: -25px;
+}
+
+/*top bar discord logo*/
+svg[name="DiscordWordmark"] {
+    display: none;
+}
+/*top bar hide*/
+#app-mount > div[class^="typeWindows-"] {
+    height: 0;
+    margin-bottom: -3px;
+}
+
+/*plugin settings center properly*/
+#HideUtils-Settings #HideUtils-buttonGroup {
+	padding: 5px !important;
+}
+#ChanblockField {
+    left: 0 !important;
+}
+.buttonGroupi {
+	padding-left: 0 !important;
+}
+
+/*fixes for Material*/
+@{channels} @{scroller}, @{container} {
+  background: rgba(0,0,0, 0.8) !important;
+}
+.comment:before {
+  display:none;
+}
+.comment {
+  transition: initial;  
+  padding: 0;
+  .transparent;
+}
+.divider.divider-red {
+  margin: 5px 5px;
+}
+.textArea-20yzAH {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  .transparent;
+}
+.message-group:last-of-type {
+  margin-bottom: 5px !important;
+}
+form > div {
+  .transparent;
+}
+// quick hack: escape function calls with custom properties
+// until https://github.com/less/less.js/issues/2986 is fixed
+.messages.scroller, .content > .theme-dark {
+    background: ~"rgba(0,0,0, var(--tm-chat-opacity))" !important;
+}
+.guilds-wrapper {
+    background: rgba(0,0,0, 0.7) !important;
+}
+.guild.guilds-add:before {
+    .nobg;
+}
+.messages-wrapper .messages .divider span {
+  .transparent;
+  padding: 2px;
+}
+.chat @{titleWrapper}, #friends .friends-header, @{header}, @{container} {
+    background: ~"rgba(0,0,0, var(--tm-titlebar-opacity))" !important;
+}
+
+@{titleBar} {
+    .transparent;
+}
+textarea {
+    font-size: 1rem !important;
+}
+pre {
+  border-radius: 5px !important;
+}
+.theme-dark .message-group .embed {
+    background: rgba(0,0,0,0.5) !important;
+}
+.channel-members .member.popout-open .avatar-small, .channel-members .member:hover .avatar-small {
+    transform: initial !important;
+}
+.channel-members .member:hover .bot-tag,
+.channel-members .member.popout-open .bot-tag,
+.channel-members .member:hover .member-activity,
+.channel-members .member.popout-open .member-activity,
+.channel-members .member:hover .member-username-inner,
+.channel-members .member.popout-open .member-username-inner {
+    -ms-transform: initial !important;
+    transform: initial !important;
+}
+
+.guilds-wrapper .guilds .guild .guild-inner .avatar-small::after {
+    height: 50px;
+    width: 50px;
+    content: "";
+    background-image: inherit;
+    display: block;
+    background-size: 100%;
+    border-radius: 50%;
+    visibility: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: initial;
+    transition: initial;
+    background-position: 50%;
+}
+
+.guilds-wrapper .guilds .guild .guild-inner .avatar-small:hover::after {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, .4);
+    transition: initial;
+    -ms-transform: translate(-50%, -50%)scale(1);
+    transform: translate(-50%, -50%)scale(1);
+}
+
+.guilds-wrapper .guilds .guild .badge {
+    z-index: 10000
+}
+
+.guilds-wrapper .guilds .guild .guild-inner .avatar-small::before {
+    height: 100%;
+    width: 100%;
+    content: "";
+    background: transparent;
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 0;
+    transition: initial;
+    top: 0;
+    left: 0;
+}
+
+.guilds-wrapper .guilds .guild.selected .guild-inner .avatar-small:hover::before,
+.guilds-wrapper .guilds .guild.selected .guild-inner .avatar-small::before {
+    background: transparent;
+    transition: initial;
+}
+
+.guilds-wrapper .guilds .guild .guild-inner .avatar-small:hover::before {
+    background: transparent;
+    transition: initial;
+}
+
+.guilds-wrapper .guilds .guild .guild-inner .avatar-small:active::before {
+    background: transparent;
+    transition: initial;
+}
+/*
+.guilds-wrapper .guilds .guild.unread::before, .guilds-wrapper .guilds .guild.selected::before {
+    height: 50px;
+    width: 50px;
+    padding: 2px;
+    top: -4px;
+    margin-top: 0;
+    left: -4px;
+    background: transparent;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+.guilds-wrapper .guilds .guild.unread::before {
+    display: none;
+}
+.guilds-wrapper .guilds .guild.unread:before {
+    background: #8a8e94;
+    border-radius: 5px;
+    height: 10px;
+    margin-top: -6px;
+}
+.guilds-wrapper .guilds .guild.selected:before, .guilds-wrapper .guilds .guild.unread:before {
+    border-radius: 20px;
+    content: " ";
+    height: 40px;
+    left: -15px;
+    margin-top: -20px;
+    position: absolute;
+    top: 50%;
+    width: 10px;
+}
+*/
+.guilds-wrapper .guilds .guild.unread::before {/*todo need to do this for .selected or whatever*/
+    display: inherit;
+    
+    border-radius: 20px;
+    content: " ";
+    height: 40px;
+    left: -10px;
+    margin-top: -20px;
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    
+    background: #8a8e94;
+    border-radius: 5px;
+    height: 10px;
+    margin-top: -6px;
+    
+    border: 2px solid #8a8e94;
+    
+    transition: border-radius 200ms ease;
+}
+
+.guild.unread a::after {
+    box-shadow: none !important;
+    animation: initial !important;
+}
+
+.guild.unread a:hover::after {
+    box-shadow: none !important;
+}
+
+.theme-dark .channel-members:only-child, .theme-dark .channel-members-loading {
+    background: rgba(0,0,0, 0.9) !important;
+}
+.context-menu {
+    background: rgba(0,0,0,0.9)!important;
+    animation: initial !important;
+    border: none;
+}
+.context-menu.invertY {
+    animation: initial !important;
+}
+.context-menu .item:hover, 
+.context-menu .item:active {
+    transition: initial !important;
+}
+#friends > div:nth-child(1) {
+    background: ~"rgba(20,20,20, var(--tm-titlebar-opacity))" !important;
+}
+#friends .friends-table .friends-table-body, #friends .friends-table .friends-table-header {
+    background: rgba(0,0,0, 0.6) !important;
+}
+
+
+.private-channels @{scrollerWrap}::before, #friends > div:nth-child(1) {
+    background: rgba(0,0,0,0.8) !important;
+}
+.markup {
+    padding-left: 0 !important;
+}
+/*
+.zzmoji, .emoji {//need to include .emoji here so scroll down on channel click works properly
+    margin: 0 .05em 0 .1em!important;
+    min-height: 22px;
+    min-width: 22px;
+    object-fit: contain;
+    vertical-align: -.4em;
+    //jumbo
+    width: 33px!important;
+    height: 33px!important;
+}
+.reaction > .zzmoji {
+    min-width: 10px !important;
+    min-height: 16px !important;
+    margin: initial !important;
+    max-width: 16px !important;
+    max-height: 16px !important;
+    margin-left: -2px !important;
+    margin-right: -2px !important;
+    margin-top: -1px !important;
+}*/
+/*match edit field text size to message text size*/
+.edit-container-inner > div > div > textarea {
+    font-size: 18.4px !important;
+}
+
+// fix color of 'send message' button in profile popout
+@{topSectionPlaying} > header > button > @{contents} {
+    color: @textColor;
+}
+
+form > div[class^="typing"] {
+    margin-bottom: 52px;
+}
+.upload-modal .inner .file .icon.image[style*="background-image:"]::before {
+    top: -20px;
+    left: 17px;
+}
+
+@mention-alpha-mod: 0.0980392;
+
+// limitation: replacing color in the popout can't be done, because it uses a higher priority !important flag than what we can do
+.replace-role-color(@from, @to) {
+  @r: red(@from);
+  @g: green(@from);
+  @b: blue(@from);
+  @r2: red(@to);
+  @g2: green(@to);
+  @b2: blue(@to);
+  
+  @rgb: ~'color: rgb(@{r}, @{g}, @{b});';
+  
+  @colorFrom: ~'[style="@{rgb}"]';
+  @flexFrom: ~'[style="flex: 1 1 auto; @{rgb}"]';
+  @withBgFrom: ~'[style="@{rgb} background: rgba(@{r}, @{g}, @{b}, @{mention-alpha-mod});"]';
+  
+  .user-name@{colorFrom}, // in message
+  .member-username-inner@{colorFrom}, // in members sidebar
+  strong@{colorFrom}, // when typing (with the plugin)
+  .margin-reset@{flexFrom} { // in voice (with the plugin)
+      color: @to !important;
+  }
+  .mention@{withBgFrom} { // in mention (with the plugin)
+      color: @to !important;
+      background: rgba(@r2, @g2, @b2, @mention-alpha-mod) !important;
+  }
+}
+.replace-role-color(rgb(230, 138, 182), rgb(100,181,246)); // naam mods
+.replace-role-color(rgb(156, 117, 190), rgb(244,67,54)); // naam friends
