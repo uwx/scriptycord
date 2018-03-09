@@ -90,6 +90,8 @@ you can install modules using `yarn` in `%LOCALAPPDATA%\Discord\injectedNodeModu
 * keydown and keypress listeners will look for functions in `window.__key_down_hooks` and
   `window.__key_press_hooks` 
   
-## disclaimer
+## disclaimer / achtung / waarschuwing / attention / advertencia / atenção / предупреждение / avvertimento
 your token is stored in plain text and visible to page and plugin javascript. i am not responsible for bad
 things that happen because of this.
+
+modifying your client may be against discord's terms of service.
