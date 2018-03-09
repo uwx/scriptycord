@@ -2,7 +2,9 @@
 a simple discord injector. short, sweet and customizable.
 
 ## OS support
-currently windows only, sorry
+currently windows only, sorry. a significant portion of the code relies on the presence of AppData and
+AppData/Local folders, and this would require a lot of changes to work on Linux. i don't have a linux
+machine to test on, but anyone willing to port would be absolutely welcome!
 
 ## plugins
 BetterDiscord plugins can be placed in `%APPDATA%\plugins` or `%LOCALAPPDATA%\Discord\injectedPlugins`
@@ -24,10 +26,13 @@ plugins are evaled with the following global variables:
     * `onMessageTextLoaded => (element)`: callback for when `.message-text` is loaded
     * `onMessageGroupLoaded => (element)`: callback for when `.message-group` is loaded
     * `css`: CSS string to inject in the webpage
-  * `addHook(selector, id, callback)`: register a CSS hook for an element listener.
+  * `addHook(selector, id, callback[, prettyCallbackName])`: register a CSS hook for an element listener.
     * `selector`: string selector for the element
     * `id`: unique ID for the hook
     * `callback(element)`: callback that takes the element as the only parameter
+    * `prettyCallbackName`: since v23, the callback's function will be renamed to this. defaults to
+      `scriptycord hook: {id}`, which should suffice for most cases. (hooks done using the array method
+      will have a personalized name reflecting the plugin they're from.)
   * `addStyle(css)`: injects a CSS string in the webpage
   * `addScript(code)`: injects a code block in a new script element in the webpage
   * `isLightTheme()`: returns `true` if light theme is enabled, `false` otherwise
@@ -42,6 +47,8 @@ plugins are evaled with the following global variables:
   it's from.
 
 ### APIs exposed to `window`
+(DiscordCanary is provided as an example here, but you can replace it with whatever client version you're
+using. Note that the case pattern is important - in %APPDATA% it's lowercase, in %LOCALAPPDATA% it's PascalCase.)
 * `window.hansenRoot`: `%LOCALAPPDATA%\DiscordCanary`
 * `window.hansenAppRoot`: `%LOCALAPPDATA%\DiscordCanary\app-0.0.YYY`
 * `window.hansenLocalStorageRoot`: `%APPDATA%\discordcanary\Local Storage`
