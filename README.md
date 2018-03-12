@@ -1,6 +1,15 @@
 # scriptycord
 a simple discord injector. short, sweet and customizable.
 
+## version support
+***scriptycord does not work on Stable as of March 11 2018.*** supporting both stable and canary is
+too much work, you should just use canary instead. PTB support is untested.
+
+## installing
+clone the repo, and open a command window in the folder, then type `npm install && node scriptycord.js`,
+and follow the graphical install process.
+nodejs 8 or above is required.
+
 ## OS support
 currently windows only, sorry. a significant portion of the code relies on the presence of AppData and
 AppData/Local folders, and this would require a lot of changes to work on Linux. i don't have a linux
