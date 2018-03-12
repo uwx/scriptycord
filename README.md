@@ -103,4 +103,4 @@ you can install modules using `yarn` in `%LOCALAPPDATA%\Discord\injectedNodeModu
 your token is stored in plain text and visible to page and plugin javascript. i am not responsible for bad
 things that happen because of this.
 
-modifying your client may be against discord's terms of service.
+modifying your client may be against discord's terms of service: [1](https://www.reddit.com/r/discordapp/comments/82tk0u/staff_resolve_vague_position_on_betterdiscord/dvcv43l/) [2](https://www.reddit.com/r/discordapp/comments/6erhdj/so_discord_doesnt_allow_betterdiscord_to_be_used/dicjjos/)
