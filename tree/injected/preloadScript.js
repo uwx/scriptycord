@@ -1,28 +1,30 @@
 (() => {
   console.log('[preload-script] hi!');
   
+  require('electron').crashReporter.start = () => {};
+  console.log('[preload-script]crashReporter state: ' + require('electron').crashReporter.start);
   /*
    * Intercepts the localStorage variable before it is deleted.
    * https://github.com/DiscordInjections/DiscordInjections/blob/389da07bffe0427647b3c1d1a0be9e9999ba546f/Preload/LocalStorageInterceptor.js
    */
 
-  let localStorage = window._localStorage = window.localStorage;
+  /*let localStorage = */window._localStorage = window.localStorage;
 
-  localStorage.constructor.prototype._setItem = localStorage.constructor.prototype.setItem;
-  localStorage.constructor.prototype.setItem = (...args) => {
-    try {
-      if (localStorage.getItem(args[0]) != args[1]) {
-        let lastModified = localStorage.getItem('DI-LastModified');
-        if (!lastModified) lastModified = {};
-        else lastModified = JSON.parse(lastModified);
-        lastModified[args[0]] = Date.now();
-        localStorage._setItem('DI-LastModified', JSON.stringify(lastModified));
-      }
-    } catch (err) {
-      console.error('[preload-script] error in localStorage.setItem', err);
-    }
-    localStorage._setItem(...args);
-  };
+  //localStorage.constructor.prototype._setItem = localStorage.constructor.prototype.setItem;
+  //localStorage.constructor.prototype.setItem = (...args) => {
+  //  try {
+  //    if (localStorage.getItem(args[0]) != args[1]) {
+  //      let lastModified = localStorage.getItem('DI-LastModified');
+  //      if (!lastModified) lastModified = {};
+  //      else lastModified = JSON.parse(lastModified);
+  //      lastModified[args[0]] = Date.now();
+  //      localStorage._setItem('DI-LastModified', JSON.stringify(lastModified));
+  //    }
+  //  } catch (err) {
+  //    console.error('[preload-script] error in localStorage.setItem', err);
+  //  }
+  //  localStorage._setItem(...args);
+  //};
   
   /*
    * Event: 'loaded'

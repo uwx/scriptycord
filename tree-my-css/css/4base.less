@@ -10,6 +10,8 @@
 @scrollerWrap: ~".scrollerWrap-2uBjct";
 @contents: ~".contents-4L4hQM";
 @topSectionPlaying: ~".topSectionPlaying-3jAH9b";
+@emojiItem: ~".emojiItem-3l4Fa9";
+@disabled: ~".disabled-1mwvoa";
 
 // colors
 @textColor: #eee;
@@ -24,6 +26,11 @@
 }
 .transparent() {
     background: transparent !important;
+}
+
+.filter(@filter) {
+    -webkit-filter: @filter;
+    filter: @filter;
 }
 
 #app-mount > .platform-win,
@@ -475,6 +482,10 @@ form > div[class^="typing"] {
     left: 17px;
 }
 
+@{emojiItem}@{disabled} {
+    .filter(initial) !important;
+}
+
 @mention-alpha-mod: 0.0980392;
 
 // limitation: replacing color in the popout can't be done, because it uses a higher priority !important flag than what we can do
@@ -505,3 +516,44 @@ form > div[class^="typing"] {
 }
 .replace-role-color(rgb(230, 138, 182), rgb(100,181,246)); // naam mods
 .replace-role-color(rgb(156, 117, 190), rgb(244,67,54)); // naam friends
+
+// webview show/hide
+.hansen-hide {
+  visibility: hidden;
+}
+.hansen-frame {
+  position: absolute;
+  z-index: 100;
+  opacity: 1;
+  left: 70px;
+  top: 0;
+  right: calc(-100vw * 0.1);
+  bottom: calc(-100vh * 0.1);
+}
+.hansen-whatsapp-tooltip {
+  left: 70px;
+  top: 120.4901px;
+}
+.hansen-telegram-tooltip {
+  left: 70px;
+  top: 180.4901px;
+}
+
+.plugin-controls input[type="checkbox"] + .ui-switch {
+    position: relative;
+    top: -45px;
+    left: 5px;
+}
+.plugin-controls .ui-switch:after {
+    position: relative;
+    top: -20px;
+}
+.plugin-controls .input-wrapper {
+    height: 0px;
+}
+#HideUtils-buttonGroup > button, #HideUtils-plugin-settings-div button {
+    color: black !important;
+}
+.swal2-content {
+    text-align: left !important;
+}

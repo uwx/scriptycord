@@ -20,11 +20,10 @@ let lastHookId = 0;
 
 module.exports = { onMessageTextLoadedHandlers, onMessageGroupLoadedHandlers, loadedHooks, loadFile };
 
-function injectPlugin(scriptText, error, /**/ scope, fs, require, rootPath, pluginLog, pluginError, pluginName, pluginFilename) {
-  const pureName = 'scriptycord plugin: ' + pluginName + ' (' + pluginFilename + ')';
+function injectPlugin(scriptText, error, /**/ scope, fs, require, rootPath, pluginLog, pluginError, pureName) {
   const stringifiedName = JSON.stringify(pureName);
   const failed = 
-  addScript(
+  addScript( // should probably keep this a regular string not interpolated
     'window[' + stringifiedName + '] = function(scope, fs, require, rootPath, log, error) {'
   +    scriptText
   + '}');
@@ -51,10 +50,10 @@ function injectPlugin(scriptText, error, /**/ scope, fs, require, rootPath, plug
 async function loadFile(e, scriptPath) {
   const logfn = e.slice(0, -3); // filename without .js cache for logger
   const log = (...args) => {
-    console.log('[loadPlugin:' + logfn + ']', ...args);
+    console.log(`[loadPlugin:${logfn}]`, ...args);
   };
   const error = (...args) => {
-    console.error('[loadPlugin:' + logfn + ']', ...args);
+    console.error(`[loadPlugin:${logfn}]`, ...args);
   };
   
   if (!e.endsWith('.js')) {
@@ -62,7 +61,7 @@ async function loadFile(e, scriptPath) {
     return;
   }
   
-  const plugin = e.slice(0, e.indexOf('.js'));
+  const pluginNameNoExt = e.slice(0, e.indexOf('.js'));
   
   const scope = {
     exports: {},
@@ -89,7 +88,7 @@ async function loadFile(e, scriptPath) {
         return; // failed, continue;
       }
     } else {
-      if (evalRegularPlugin(scope, scriptText, log, error, pluginLog, pluginError, e, plugin)) {
+      if (evalRegularPlugin(scope, scriptText, log, error, pluginLog, pluginError, pluginNameNoExt, f)) {
         return; // failed, continue;
       }
     }
@@ -102,6 +101,9 @@ function evalBdPlugin(scope, scriptText, log, error, pluginLog, pluginError, e, 
   log('loading BD plugin [metadata: ' + f + ']');
   const pluginData = JSON.parse(f.slice('//META'.length, -'*//'.length));
   window.BdApi._entries.push(pluginData);
+
+  const prettyPluginName = `scriptycord plugin: ${pluginData.name} (${e})`;
+
   window.bdplugins[pluginData.name] = pluginData;
   window.pluginCookie[pluginData.name] = true;
 
@@ -111,7 +113,7 @@ function evalBdPlugin(scope, scriptText, log, error, pluginLog, pluginError, e, 
   
   log('evaling BD plugin');
   
-  if (!injectPlugin(pluginInjected, error, scope, fs, require, rootPath, pluginLog, pluginError, pluginData.name, e)) {
+  if (!injectPlugin(pluginInjected, error, scope, fs, require, rootPath, pluginLog, pluginError, prettyPluginName)) {
     return true;
   }
   
@@ -120,30 +122,39 @@ function evalBdPlugin(scope, scriptText, log, error, pluginLog, pluginError, e, 
   const pl = pluginData._pluginHolder = new scope._bdApiInjected();
   if (pl.load) {
     log('built, loading');
+    pl.load.displayName = `[${prettyPluginName}].load()`;
     pl.load();
   }
   if (pl.start) {
+    pl.start.displayName = `[${prettyPluginName}].start()`;
     loadedHooks.push(() => {
       log('starting');
       pl.start();
     });
   }
   
-  log('[' + pl.getVersion() + '] ' + pl.getName() + ' by ' + pl.getAuthor() + '\n"' + pl.getDescription() + '"');
+  log(`[${pl.getVersion()}] ${pl.getName()} by ${pl.getAuthor()}\n"${pl.getDescription()}"`);
 }
 
-function evalRegularPlugin(scope, scriptText, log, error, pluginLog, pluginError, e, plugin) {
+function evalRegularPlugin(scope, scriptText, log, error, pluginLog, pluginError, pluginNameNoExt, fileName) {
+  let prettyPluginName = `scriptycord plugin: ${pluginNameNoExt} (${fileName})`;
+
   log('evaling non-BD plugin');
-  if (!injectPlugin(scriptText, error, scope, fs, require, rootPath,  pluginLog, pluginError, plugin, e)) {
+  if (!injectPlugin(scriptText, error, scope, fs, require, rootPath,  pluginLog, pluginError, prettyPluginName)) {
     return true;
   }
   log('eval succeeded!');
 
+  // refresh with real name
+  if (scope.exports.name) prettyPluginName = `scriptycord plugin: ${scope.exports.name} (${fileName})`;
+
   if (scope.exports.init) {
     log('init');
+    scope.exports.init.displayName = `[${prettyPluginName}].init()`;
     scope.exports.init();
   }
   if (scope.exports.start) {
+    scope.exports.start.displayName = `[${prettyPluginName}].init()`;
     loadedHooks.push(() => {
       log('start');
       scope.exports.start();
@@ -152,18 +163,20 @@ function evalRegularPlugin(scope, scriptText, log, error, pluginLog, pluginError
   // add hooks
   if (scope.exports.hooks) {
     scope.exports.hooks.forEach(hook => {
-      var id = 'in-' + plugin + '-hook-' + (++lastHookId);
-      addHook(hook[0], id, hook[1]);
+      var id = `in-${pluginNameNoExt}-hook-${++lastHookId}`;
+      addHook(hook[0], id, hook[1], prettyPluginName);
       log('hooked element listener:', hook[0], id, hook[1]);
     });
   }
   // add handlers
   if (scope.exports.onMessageTextLoaded) {
     log('adding onMessageTextLoaded handler', scope.exports.onMessageTextLoaded);
+    scope.exports.onMessageTextLoaded.displayName = `[${prettyPluginName}].onMessageTextLoaded()`;
     onMessageTextLoadedHandlers.push(scope.exports.onMessageTextLoaded);
   }
   if (scope.exports.onMessageGroupLoaded) {
     log('adding onMessageGroupLoaded handler', scope.exports.onMessageGroupLoaded);
+    scope.exports.onMessageGroupLoaded.displayName = `[${prettyPluginName}].onMessageGroupLoaded()`;
     onMessageGroupLoadedHandlers.push(scope.exports.onMessageGroupLoaded);
   }
   // inject css
@@ -173,7 +186,7 @@ function evalRegularPlugin(scope, scriptText, log, error, pluginLog, pluginError
   }
   // display info
   if (scope.exports.author && scope.exports.name && scope.exports.description && scope.exports.version) {
-    log('[' + scope.exports.version + '] ' + scope.exports.name + ' by ' + scope.exports.author + '\n"' + scope.exports.description + '"');
+    log(`[${scope.exports.version}] ${scope.exports.name} by ${scope.exports.author}\n"${scope.exports.description}"`);
   } else {
     log('finished with success');
   }

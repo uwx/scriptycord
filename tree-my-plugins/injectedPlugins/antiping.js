@@ -46,7 +46,11 @@ scope.exports = {
     ['.guild > .badge', e => {
       console.log('[antiping] caught notif ' + e);
       if (servers.length) {
-        let href = e.parentElement.firstChild.firstChild.firstChild.getAttribute('href');
+        let badge = e.parentElement.firstChild.firstChild.firstChild;
+        if (!badge) { // friends, or wsapp
+          return;
+        }
+        let href = badge.getAttribute('href');
         href = href.substring('/channels/'.length, href.lastIndexOf('/'));
 
         const outserver = servers.find(sv => href == sv);

@@ -39,8 +39,8 @@ window.hansenExecute(async function secondJS(rremote) {
     }
   };
   
-  if (await fs.exists(userDataRoot + '/token.txt')) {
-    window.hansenToken = await fs.readFile(userDataRoot + '/token.txt', 'utf8');
+  if (await fs.exists(window.userDataRoot + '/token.txt')) {
+    window.hansenToken = await fs.readFile(window.userDataRoot + '/token.txt', 'utf8');
     _hansenTokenIsDone = true;
     _hansenTokenReadyCallbacks.forEach(e => e(window.hansenToken));
     _hansenTokenReadyCallbacks = [];
@@ -48,19 +48,24 @@ window.hansenExecute(async function secondJS(rremote) {
     return;
   }
 
-  // read token from sqlite and make it available, call callbacks
-  let e = await proc.execFile(protocolRoot + '/sqlite3.exe', [window.hansenLocalStorageRoot + '/https_canary.discordapp.com_0.localstorage', 'select hex(value) from ItemTable where key = "token";']);
-  if (e[0]) e = e[0];
+  if (window._localStorage && window._localStorage.token) {
+    window.hansenToken = window._localStorage.token.slice(1,-1);
+    console.log('[second][TokenFetcher] got it from localStorage!', window.hansenToken);
+  } else {
+    // read token from sqlite and make it available, call callbacks
+    let e = await proc.execFile(window.protocolRoot + '/sqlite3.exe', [window.hansenLocalStorageRoot + '/https_canary.discordapp.com_0.localstorage', 'select hex(value) from ItemTable where key = "token";']);
+    if (e[0]) e = e[0];
 
-  const out = [];
-  for (var i = 0; i < e.length; i += 4) {
-    out.push(String.fromCharCode(parseInt(e.substr(i, 2), 16)));
+    const out = [];
+    for (var i = 0; i < e.length; i += 4) {
+      out.push(String.fromCharCode(parseInt(e.substr(i, 2), 16)));
+    }
+    window.hansenToken = out.join('').trim().slice(1, -2);
+    console.log('[second][TokenFetcher] got it!', window.hansenToken);
   }
-  window.hansenToken = out.join('').slice(1, -2)
-  console.log('[second][TokenFetcher] got it!', window.hansenToken);
   _hansenTokenIsDone = true;
   _hansenTokenReadyCallbacks.forEach(e => e(window.hansenToken));
   _hansenTokenReadyCallbacks = [];
   
-  await fs.writeFile(userDataRoot + '/token.txt', window.hansenToken).catch(e => console.error('[second.js] failed to write token ' + e));
+  await fs.writeFile(window.userDataRoot + '/token.txt', window.hansenToken).catch(e => console.error('[second.js] failed to write token ' + e));
 });

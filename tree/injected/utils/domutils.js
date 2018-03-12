@@ -1,4 +1,6 @@
-function addHook(selector, id, callback) {
+'use strict';
+
+function addHook(selector, id, callback, prettyCallbackName = 'scriptycord hook: ' + id) {
   addStyle(`
   @keyframes ${id} {  
     from {  
@@ -14,6 +16,8 @@ function addHook(selector, id, callback) {
   }
   `);
   
+  callback.displayName = `[${prettyCallbackName}]."${selector}"`;
+
   document.addEventListener('animationstart', function(event) {
     if (event.animationName == id) {
       callback(event.target);
