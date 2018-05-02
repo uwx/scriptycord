@@ -52,7 +52,7 @@ const ws = require('windows-shortcuts-promise');
   }
   
   console.log('Installing electron...');
-  console.log(await proc.exec('npm install -g electron@1.6.15 --arch=ia32'));
+  console.log(await proc.exec('npm install -g electron@2.0.0 --arch=ia32'));
   
   console.log('Installing node modules...');
   console.log(await proc.exec('npm install', {cwd: baseDir + '/injectedNodeModules'}));

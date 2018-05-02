@@ -1,8 +1,13 @@
 (() => {
   console.log('[preload-script] hi!');
   
-  require('electron').crashReporter.start = () => {};
-  console.log('[preload-script]crashReporter state: ' + require('electron').crashReporter.start);
+  const electron = require('electron');
+  
+  electron.crashReporter.start = () => {};
+  console.log('[preload-script]crashReporter state: ' + electron.crashReporter.start);
+  
+  require(require('path').relative(__dirname, electron.remote.getGlobal('__hansen_Preload')));
+  
   /*
    * Intercepts the localStorage variable before it is deleted.
    * https://github.com/DiscordInjections/DiscordInjections/blob/389da07bffe0427647b3c1d1a0be9e9999ba546f/Preload/LocalStorageInterceptor.js

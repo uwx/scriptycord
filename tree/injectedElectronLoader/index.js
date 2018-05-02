@@ -1,3 +1,5 @@
+'use strict';
+
 const electron = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -11,8 +13,8 @@ const appTitle = fs.readdirSync(global.hansenRoot).filter(e => e.includes('app-'
 })[0];
 global.hansenAppRoot = path.resolve(__dirname, '..', appTitle);
 
-const mainScreenInjections = parseInjections(fs.readFileSync('./injectionPoints - mainScreen.txt', 'utf8'));
-const systemTrayInjections = parseInjections(fs.readFileSync('./injectionPoints - systemTray.txt', 'utf8'));
+const mainScreenInjections = parseInjections(fs.readFileSync(path.resolve(__dirname, 'injectionPoints - mainScreen.txt'), 'utf8'));
+const systemTrayInjections = parseInjections(fs.readFileSync(path.resolve(__dirname, 'injectionPoints - systemTray.txt'), 'utf8'));
 //const indexInjections = parseInjections(fs.readFileSync('./injectionPoints - index.txt', 'utf8'));
 
 function parseInjections(file) {
@@ -33,7 +35,7 @@ function parseInjections(file) {
     } else {
       action.replace = replace;
     }
-    action.replace = action.replace.replace(/\%\%\%/g, global.hansenRoot.replace(/\\/g, '\\\\'));
+    action.replace = action.replace.replace(/%%%/g, global.hansenRoot.replace(/\\/g, '\\\\'));
     
     actions.push(action);
   }
@@ -43,7 +45,7 @@ console.log('[Injector] injection points in mainScreen', mainScreenInjections);
 console.log('[Injector] injection points in systemTray', systemTrayInjections);
 //console.log('[Injector] injection points in index', indexInjections);
 
-process.chdir(path.join(__dirname, '..', appTitle))
+process.chdir(path.join(__dirname, '..', appTitle));
 
 const root = path.join(__dirname, '..', appTitle, 'resources', 'app.asar');
 
@@ -55,14 +57,16 @@ require('../injected/electronScopePremain').onEventRegister(electron, electron.a
 // fetch package.json inside app asar
 const pkg = require(path.join(root, 'package.json'));
 
-  // patch module
-  Module._extensions['.js'] = (module, filename) => {
+const oldLoader = Module._extensions['.js'];
+
+// patch module
+Module._extensions['.js'] = (module, filename) => {
   let content = fs.readFileSync(filename, 'utf8');
   const shortname = filename.replace(root, '');
   let totalInjections = 0;
 
   if (filename.endsWith(`app${path.sep}mainScreen.js`)) {
-    console.log('[Injector] patching main window...')
+    console.log('[Injector] patching main window...');
     
     for (let action of mainScreenInjections) {
       content = content.replace(action.find, action.replace);
@@ -70,7 +74,7 @@ const pkg = require(path.join(root, 'package.json'));
     }
 
   } else if (filename.endsWith(`app${path.sep}systemTray.js`)) {
-    console.log('[Injector] patching system tray...')
+    console.log('[Injector] patching system tray...');
     
     for (let action of systemTrayInjections) {
       content = content.replace(action.find, action.replace);

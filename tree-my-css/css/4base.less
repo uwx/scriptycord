@@ -41,6 +41,8 @@
 #app-mount > .platform-win > div > div.layers.flex-vertical.flex-spacer > div > div > div > div > div.chat.flex-vertical.flex-spacer > div.theme-dark > div[class*="title-"],
 // text area
 form,
+// right members pane
+.chat @{scroller},
 // friends header
 #friends > div:nth-child(1) {
 	.transparent;
@@ -223,7 +225,7 @@ svg[name="DiscordWordmark"] {
 }
 
 /*fixes for Material*/
-@{channels} @{scroller}, @{container} {
+@{channels} @{scroller}, @{container}, .chat @{scrollerWrap} {
   background: rgba(0,0,0, 0.8) !important;
 }
 .comment:before {
@@ -516,44 +518,3 @@ form > div[class^="typing"] {
 }
 .replace-role-color(rgb(230, 138, 182), rgb(100,181,246)); // naam mods
 .replace-role-color(rgb(156, 117, 190), rgb(244,67,54)); // naam friends
-
-// webview show/hide
-.hansen-hide {
-  visibility: hidden;
-}
-.hansen-frame {
-  position: absolute;
-  z-index: 100;
-  opacity: 1;
-  left: 70px;
-  top: 0;
-  right: calc(-100vw * 0.1);
-  bottom: calc(-100vh * 0.1);
-}
-.hansen-whatsapp-tooltip {
-  left: 70px;
-  top: 120.4901px;
-}
-.hansen-telegram-tooltip {
-  left: 70px;
-  top: 180.4901px;
-}
-
-.plugin-controls input[type="checkbox"] + .ui-switch {
-    position: relative;
-    top: -45px;
-    left: 5px;
-}
-.plugin-controls .ui-switch:after {
-    position: relative;
-    top: -20px;
-}
-.plugin-controls .input-wrapper {
-    height: 0px;
-}
-#HideUtils-buttonGroup > button, #HideUtils-plugin-settings-div button {
-    color: black !important;
-}
-.swal2-content {
-    text-align: left !important;
-}
