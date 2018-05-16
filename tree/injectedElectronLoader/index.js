@@ -41,8 +41,8 @@ function parseInjections(file) {
   }
   return actions;
 }
-console.log('[Injector] injection points in mainScreen', mainScreenInjections);
-console.log('[Injector] injection points in systemTray', systemTrayInjections);
+console.log('[Injector] injection points in mainScreen: ', mainScreenInjections.length);
+console.log('[Injector] injection points in systemTray: ', systemTrayInjections.length);
 //console.log('[Injector] injection points in index', indexInjections);
 
 process.chdir(path.join(__dirname, '..', appTitle));
