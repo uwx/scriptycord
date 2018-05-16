@@ -4,5 +4,8 @@ onOpenVoiceSettings = _options2.onOpenVoiceSettings,
 menuItems[MenuItems.QUIT] = {
 !before: menuItems['HANSEN_PLUGIN_SETTINGS'] = { label: 'Plugin Settings', type: 'normal', click: _hansen_Settings };
 
-contextMenu = [menuItems[MenuItems.SECRET], separator, menuItems[MenuItems.OPEN], menuItems[MenuItems.MUTE], menuItems[MenuItems.DEAFEN], menuItems[MenuItems.VOICE_SETTINGS], menuItems[MenuItems.CHECK_UPDATE], separator, menuItems[MenuItems.QUIT]];
-contextMenu = [menuItems[MenuItems.SECRET], separator, menuItems['HANSEN_PLUGIN_SETTINGS'], menuItems[MenuItems.OPEN], menuItems[MenuItems.MUTE], menuItems[MenuItems.DEAFEN], menuItems[MenuItems.VOICE_SETTINGS], menuItems[MenuItems.CHECK_UPDATE], separator, menuItems[MenuItems.QUIT]];
+contextMenu = [menuItems[MenuItems.SECRET], separator, menuItems[MenuItems.OPEN], menuItems[MenuItems.MUTE], menuItems[MenuItems.DEAFEN], menuItems[MenuItems.VOICE_SETTINGS], menuItems[MenuItems.CHECK_UPDATE], menuItems[MenuItems.ACKNOWLEDGEMENTS], separator, menuItems[MenuItems.QUIT]];
+contextMenu = [menuItems[MenuItems.SECRET], separator, menuItems['HANSEN_PLUGIN_SETTINGS'], menuItems[MenuItems.OPEN], menuItems[MenuItems.MUTE], menuItems[MenuItems.DEAFEN], menuItems[MenuItems.VOICE_SETTINGS], menuItems[MenuItems.CHECK_UPDATE], menuItems[MenuItems.ACKNOWLEDGEMENTS], separator, menuItems[MenuItems.QUIT]];
+
+ACKNOWLEDGEMENTS: 'ACKNOWLEDGEMENTS'
+ACKNOWLEDGEMENTS: 'ACKNOWLEDGEMENTS', HANSEN_SETTINGS: 'HANSEN_SETTINGS'
