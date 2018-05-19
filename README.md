@@ -16,7 +16,7 @@ AppData/Local folders, and this would require a lot of changes to work on Linux.
 machine to test on, but anyone willing to port would be absolutely welcome!
 
 ## plugins
-BetterDiscord plugins can be placed in `%APPDATA%\plugins` or `%LOCALAPPDATA%\Discord\injectedPlugins`
+BetterDiscord plugins can be placed in `%APPDATA%\BetterDiscord\plugins` or `%LOCALAPPDATA%\Discord\injectedPlugins`
 
 scriptycord comes with the plugins i made for myself, under the same license as the rest of the project.
 
